@@ -1,21 +1,58 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Bike Share: Starter Files</title>
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.css' rel='stylesheet' />
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <div id='map'></div>
-    <script>
-      // REPLACE THE EMPTY ACCESS TOKEN WITH YOUR OWN TOKEN FROM MAP BOX
-      mapboxgl.accessToken = 'YOUR TOKEN HERE';
-      var map = new mapboxgl.Map({
-          container: 'map',
-          style: 'mapbox://styles/mapbox/streets-v9'
-      });
-    </script>
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <title>Bike Share: Starter Files</title>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.css' rel='stylesheet' />
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <div id='map'></div>
+  <script>
+    // REPLACE THE EMPTY ACCESS TOKEN WITH YOUR OWN TOKEN FROM MAP BOX
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYWxvZWVlZWVlZWVlIiwiYSI6ImNqOWcyaWtubzJyMnczMnM0NGM5czM3b2wifQ.4rdCbu7FuWYIXhpDqreu1w';
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v9',
+      center: [-73.985708, 40.75773],
+      zoom: 12,
+    });
+
+    const bikes = "https://cdn.rawgit.com/mikefresh/cccb2b7571f6de2a4fd96c6271a1b8a3/raw/7b716366fc8fe27b9ecace1bbdcd4cf8d82980fd/citi.json"
+
+    axios(bikes).then(response => {
+      response.data.stationBeanList.forEach(item=>{
+        addMaker(item)
+      })
+    });
+    function addMaker(position) {
+      var marker = new mapboxgl.Marker()
+        .setLngLat([position.longitude, position.latitude])
+        .addTo(map);
+      var dom = marker.getElement()
+      if(position.availableBikes <= 2){
+        dom.className += " red"
+      }else if(position.availableBikes > 2 && position.availableBikes <= 9){
+        dom.className += " yellow"
+      }else{
+        dom.className += " green"
+      }
+    }
+      //get lng and lat for api
+
+      //loop every stations（一共813个）
+
+      //put marker on every stations
+
+      //category these markers by number of bikes
+
+
+
+  </script>
+</body>
+
 </html>
