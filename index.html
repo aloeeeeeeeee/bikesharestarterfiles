@@ -26,10 +26,10 @@
 
     axios(bikes).then(response => {
       response.data.stationBeanList.forEach(item=>{
-        addMaker(item)
+        addMarker(item)
       })
     });
-    function addMaker(position) {
+    function addMarker(position) {
       var marker = new mapboxgl.Marker()
         .setLngLat([position.longitude, position.latitude])
         .addTo(map);
